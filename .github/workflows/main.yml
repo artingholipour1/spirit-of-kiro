@@ -1,4 +1,4 @@
-name: Build Spirit of Kiro with Godot 4.4.1
+name: Build Spirit of Kiro Windows Export
 
 on:
   push:
@@ -9,22 +9,26 @@ on:
       - main
 
 jobs:
-  build:
+  build-windows:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Setup Godot 4.4.1 headless
-      uses: firebelley/setup-godot@v1
-      with:
-        godot-version: 4.4.1
-        headless: true
-
-    - name: Create build folder
-      run: mkdir -p build
+    - name: Download Godot 4.4.1 headless (Linux x64) with retries
+      run: |
+        for i in {1..5}; do
+          wget https://downloads.tuxfamily.org/godotengine/4.4.1/Godot_v4.4.1-stable_linux_headless_amd64.zip && break
+          echo "Retrying in 5 seconds..."
+          sleep 5
+        done
+        unzip Godot_v4.4.1-stable_linux_headless_amd64.zip -d godot
+        chmod +x godot/Godot_v4.4.1-stable_linux_headless_amd64
 
     - name: Export project for Windows Desktop
-      run: godot --export "Windows Desktop" build/spirit_of_ki
+      run: |
+        ./godot/Godot_v4.4.1-stable_linux_headless_amd64 --export "Windows Desktop" build/spirit_of_kiro.exe
 
+    - name: List exported files
+      run: ls -l build/
