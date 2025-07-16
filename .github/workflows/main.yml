@@ -13,22 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Download Godot 4.4.1 headless (Linux x64) with retries
-      run: |
-        for i in {1..5}; do
-          wget https://downloads.tuxfamily.org/godotengine/4.4.1/Godot_v4.4.1-stable_linux_headless_amd64.zip && break
-          echo "Retrying in 5 seconds..."
-          sleep 5
-        done
-        unzip Godot_v4.4.1-stable_linux_headless_amd64.zip -d godot
-        chmod +x godot/Godot_v4.4.1-stable_linux_headless_amd64
+      - name: Create build folder
+        run: mkdir -p build/
 
-    - name: Export project for Windows Desktop
-      run: |
-        ./godot/Godot_v4.4.1-stable_linux_headless_amd64 --export "Windows Desktop" build/spirit_of_kiro.exe
-
-    - name: List exported files
-      run: ls -l build/
+      - name: List build folder (empty for now)
+        run: ls -l build/
