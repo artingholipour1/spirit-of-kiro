@@ -1,4 +1,4 @@
-name: Build Spirit of Kiro with Godot 4.4.1
+name: Build Spirit of Kiro Windows Export
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-windows:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,9 +22,10 @@ jobs:
         unzip Godot_v4.4.1-stable_linux_headless_amd64.zip -d godot
         chmod +x godot/Godot_v4.4.1-stable_linux_headless_amd64
 
-    - name: Export project for Linux/X11
+    - name: Export project for Windows Desktop
       run: |
-        ./godot/Godot_v4.4.1-stable_linux_headless_amd64 --export "Linux/X11" build/spirit_of_kiro.x86_64
+        ./godot/Godot_v4.4.1-stable_linux_headless_amd64 --export "Windows Desktop" build/spirit_of_kiro.exe
 
     - name: List exported files
       run: ls -l build/
+
