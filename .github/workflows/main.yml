@@ -1,0 +1,30 @@
+name: Build Spirit of Kiro with Godot 4.4.1
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Download Godot 4.4.1 headless (Linux x64)
+      run: |
+        wget https://downloads.tuxfamily.org/godotengine/4.4.1/Godot_v4.4.1-stable_linux_headless_amd64.zip
+        unzip Godot_v4.4.1-stable_linux_headless_amd64.zip -d godot
+        chmod +x godot/Godot_v4.4.1-stable_linux_headless_amd64
+
+    - name: Export project for Linux/X11
+      run: |
+        ./godot/Godot_v4.4.1-stable_linux_headless_amd64 --export "Linux/X11" build/spirit_of_kiro.x86_64
+
+    - name: List exported files
+      run: ls -l build/
