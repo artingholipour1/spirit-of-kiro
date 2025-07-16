@@ -1,23 +1,21 @@
-name: Build Spirit of Kiro Windows Export
+name: Release EXE on Tag
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 jobs:
-  build-windows:
+  release:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Create build folder
-        run: mkdir -p build/
-
-      - name: List build folder (empty for now)
-        run: ls -l build/
+      - name: Upload EXE to Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/spirit_of_kiro.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
